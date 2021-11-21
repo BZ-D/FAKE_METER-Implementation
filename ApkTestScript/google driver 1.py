@@ -1,21 +1,12 @@
 # -*- coding:utf8 -*-
 
 import time
-import os
 from appium import webdriver
-from appium.webdriver.common.touch_action import TouchAction
-import sys
-desired_caps = {}
-desired_caps['platformName'] = 'Android'
-desired_caps['platformVersion'] = '4.4'
-desired_caps['platformVersion'] = '7.0'
-#desired_caps['automationName'] = 'UIAutomator2'
-desired_caps['deviceName'] = 'emulator-5554'
 
-desired_caps['appPackage'] = 'com.google.android.apps.docs'
-desired_caps['appActivity'] = 'com.google.android.apps.docs.app.NewMainProxyActivity'
-#desired_caps['newCommandTimeout'] = '1000'
-desired_caps['noReset'] = True
+desired_caps = {'platformName': 'Android', 'platformVersion': '7.0', 'deviceName': 'emulator-5554',
+                'appPackage': 'com.google.android.apps.docs',
+                'appActivity': 'com.google.android.apps.docs.app.NewMainProxyActivity', 'noReset': True}
+
 '''
 make sure the screen is under the screen "file"
 '''
@@ -26,7 +17,5 @@ time.sleep(10)
 
 el = driver.find_element_by_accessibility_id("More actions for paperRecord")
 el.click()
-
-# ......
 
 driver.quit()

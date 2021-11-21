@@ -3,15 +3,9 @@
 import time
 from appium import webdriver
 
-desired_caps = {}
-desired_caps['platformName'] = 'Android'
-desired_caps['platformVersion'] = '10.0'
-desired_caps['deviceName'] = 'emulator-5554'
-desired_caps['appPackage'] = 'com.dianping.v1'
-desired_caps['appActivity'] = 'com.dianping.main.guide.SplashScreenActivity'
-desired_caps['newCommandTimeout'] = '1000'
-desired_caps['noReset'] = True
-
+desired_caps = {'platformName': 'Android', 'platformVersion': '10.0', 'deviceName': 'emulator-5554',
+                'appPackage': 'com.dianping.v1', 'appActivity': 'com.dianping.main.guide.SplashScreenActivity',
+                'newCommandTimeout': '1000', 'noReset': True}
 
 driver = webdriver.Remote('http://0.0.0.0:4723/wd/hub', desired_caps)
 time.sleep(10)
@@ -22,7 +16,6 @@ el = driver.find_element_by_android_uiautomator("new UiSelector().text(\"酒店/
 el.click()
 
 driver.quit()
-
 
 
 '''
