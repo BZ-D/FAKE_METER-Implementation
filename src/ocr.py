@@ -4,7 +4,7 @@ import requests
 import base64
 
 
-def get_text_ocr(filePath):
+def get_ocr_words(filePath):
     TOKEN = '24.1b84780b7c6ca739e3ce7f4ba316336e.2592000.1640141874.282335-25207025'
     request_url = 'https://aip.baidubce.com/rest/2.0/ocr/v1/general'
 
@@ -24,6 +24,6 @@ def get_text_ocr(filePath):
     return 'error'
 
 
-# if __name__ == '__main__':
-#     words = get_text_ocr('01.png')
-#     pass
+if __name__ == '__main__':
+    words = get_ocr_words('01.png')
+    pass
