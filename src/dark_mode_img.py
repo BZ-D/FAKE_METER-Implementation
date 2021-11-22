@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import cv2.cv2
-import os
 import numpy as np
 
 """
