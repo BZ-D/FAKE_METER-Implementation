@@ -1,4 +1,6 @@
 import cv2.cv2
+import numpy as np
+import classify
 
 
 # GUI Element Matching
@@ -54,6 +56,15 @@ def graphic_match_sift(img1, img2):
     keypoints1, descriptor1 = sift.detectAndCompute(img1, None)
     keypoints2, descriptor2 = sift.detectAndCompute(img2, None)
 
+    # 统计公共描述符
+    V_GM_THRESHOLD = 0.4
+    same_des_num = 0
+
+    for arr1 in descriptor1:
+        for arr2 in descriptor2:
+            if (arr1 == arr2).all():
+                same_des_num += 1
+
     # 绘制特征点
     # cv2.drawKeypoint(image, keypoints, outImage, color, flags)
     # image：输入图像
@@ -100,9 +111,72 @@ def graphic_match_sift(img1, img2):
     cv2.imshow("matches", img3)
     cv2.waitKey()
 
+    a = same_des_num / len(descriptor1) > V_GM_THRESHOLD or same_des_num / len(descriptor2) > V_GM_THRESHOLD
+    return a
+
+
+def element_set_match(set1, set2):
+    # set1, set2 : set of elements
+
+    # two thresholds
+    V_CM_1 = 0.7
+    V_CM_2 = 0.4
+
+    # MT: match of textual elements
+    # MG: match of graphical elements
+    MT = -1
+    MG = -1
+    text_match_sum = 0
+    graphical_match_sum = 0
+    set1_text_num = 0
+    set2_text_num = 0
+    set1_graphic_num = 0
+    set2_graphic_num = 0
+
+    # 遍历两集合中的所有元素，一一比较，统计相似元素数
+    # 以及各集合中分别含有的文本元素数、图形元素数
+    for e1 in set1:
+        for e2 in set2:
+
+            # 两元素都是文本元素，通过比较相似单词数进行匹配
+            if e1.type == 'textual' and e2.type == 'textual':
+                set1_text_num += 1
+                set2_text_num += 1
+                if text_match(e1, e2):
+                    text_match_sum += 1
+
+            # 两元素都是图形元素，通过比较特征描述符相同比例进行匹配
+            elif e1.type == 'graphical' and e2.type == 'graphical':
+                set1_graphic_num += 1
+                set2_graphic_num += 1
+                if graphic_match_sift(e1, e2):
+                    graphical_match_sum += 1
+
+            elif e1.type == 'textual' and e2.type == 'graphical':
+                set1_text_num += 1
+                set2_graphic_num += 1
+
+            elif e1.type == 'graphical' and e2.type == 'textual':
+                set1_graphic_num += 1
+                set2_graphic_num += 1
+
+    MT = text_match_sum / (set1_text_num + set2_text_num)
+    MG = graphical_match_sum / (set1_graphic_num + set2_graphic_num)
+
+    # 三个条件选一：
+    # 1）$MT_{E_1,E_2}>V_{cm1}$
+    #
+    # 2）$MG_{E_1,E_2}>V_{cm1}$
+    #
+    # 3）$MT_{E_1,E_2}>V_{cm2} and MG_{E_1,E_2}>V_{cm2}$
+    #
+    # 其中第三个条件作为补偿，允许MT和MG值平衡的更小规模元素集间进行匹配
+    return MT > V_CM_1 or MG > V_CM_1 or (MT > V_CM_2 and MG > V_CM_2)
+
 
 if __name__ == '__main__':
     img1 = cv2.imread('05.png')
     img2 = cv2.imread('06.png')
 
-    graphic_match_sift(img1, img2)
+    a = graphic_match_sift(img1, img2)
+    pass
