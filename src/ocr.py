@@ -18,6 +18,7 @@ def get_ocr_words(filePath):
     response = requests.post(request_url, data=params, headers=headers)
 
     if response:
+        print(response.json())
         r = json.loads(response.text)
         return r.get('words_result')
 

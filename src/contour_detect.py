@@ -79,7 +79,7 @@ def draw_approx_hull_polygon(img, cnts):
 def run():
     # add img and change it into binary img
     # notice that the img read is like (B,G,R)
-    image = cv.imread("01.png")
+    image = cv.imread("lorem.jpg")
     # using Canny Algorithm to extract the edge of img
     # 128: threshold1, used to connect discontinuous edges
     # 256: threshold2, used to detect obvious contour
