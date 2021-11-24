@@ -121,6 +121,48 @@ def get_app_name():
     return app_name
 
 
+def get_script_path():
+    global script_path
+    script_path = tkFD.askopenfilename()
+    script_path_input.config(state='normal')
+    script_path_input.delete(0, "end")
+    script_path_input.insert(0, script_path)
+    script_path_input.config(state='readonly')
+    return script_path
+
+
+def get_base_apk_path():
+    global base_apk_path
+    base_apk_path = tkFD.askopenfilename()
+    base_input.config(state='normal')
+    base_input.delete(0, "end")
+    base_input.insert(0, base_apk_path)
+    base_input.config(state='readonly')
+    return base_apk_path
+
+
+def get_updated_apk_path():
+    global updated_apk_path
+    updated_apk_path = tkFD.askopenfilename()
+    updated_input.config(state='normal')
+    updated_input.delete(0, "end")
+    updated_input.insert(0, updated_apk_path)
+    updated_input.config(state='readonly')
+    return updated_apk_path
+
+
+def get_base_platform_ver():
+    global base_platform_ver
+    base_platform_ver = base_platform_choose.get()
+    return base_platform_ver
+
+
+def get_updated_platform_ver():
+    global updated_platform_ver
+    updated_platform_ver = updated_platform_choose.get()
+    return updated_platform_ver
+
+
 def get_app_package():
     global app_package
     app_package = app_package_input.get()
@@ -131,6 +173,7 @@ def get_app_activity():
     global app_activity
     app_activity = app_activity_input.get()
     return app_activity
+
 
 # ------------ TkInter Window Area -------------
 
@@ -294,7 +337,7 @@ script_path_input.place(x=180, y=367)
 script_path_choose = Button(body,
                             text='选择',
                             width=10,
-                            command=tkFD.askopenfilename)
+                            command=get_script_path)
 script_path_choose.place(x=480, y=360)
 
 # base version apk path hint
@@ -319,7 +362,7 @@ base_input.place(x=230, y=407)
 base_choose = Button(body,
                      text='选择',
                      width=10,
-                     command=tkFD.askopenfilename)
+                     command=get_base_apk_path)
 base_choose.place(x=480, y=400)
 
 # updated version apk path hint
@@ -344,7 +387,7 @@ updated_input.place(x=230, y=447)
 updated_choose = Button(body,
                         text='选择',
                         width=10,
-                        command=tkFD.askopenfilename)
+                        command=get_updated_apk_path)
 updated_choose.place(x=480, y=440)
 
 # base platform version hint
