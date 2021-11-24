@@ -1,10 +1,40 @@
+import tkinter.messagebox
 from tkinter import *
 import tkinter.filedialog as tkFD
 from tkinter import ttk
+import subprocess
 import socket
 
 
+has_appium = False
+has_devices = False
+has_access_token = False
+has_app_name = False
+has_script_path = False
+has_base_apk_path = False
+has_updated_apk_path = False
+has_base_platform_ver = False
+has_updated_platform_ver = False
+has_app_package = False
+has_app_activity = False
+
+PREPARE_WORKS_DONE = [
+    has_appium,
+    has_devices,
+    has_access_token,
+    has_app_name,
+    has_script_path,
+    has_base_apk_path,
+    has_updated_apk_path,
+    has_base_platform_ver,
+    has_updated_platform_ver,
+    has_app_package,
+    has_app_activity
+]
+
+
 def check_port_in_use(port, host='127.0.0.1'):
+    # check whether a certain port is occupied
     s = None
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -18,9 +48,42 @@ def check_port_in_use(port, host='127.0.0.1'):
             s.close()
 
 
-def get_appium_state(window):
+def get_appium_state():
+    # check whether the port 4723 (default port of Appium) is occupied
     APPIUM_DEFAULT_PORT = 4723
-    check_port_in_use(4723)
+    global has_appium
+    has_appium = check_port_in_use(APPIUM_DEFAULT_PORT)
+    return has_appium
+
+
+def dialog_appium_state():
+    if has_appium:
+        tkinter.messagebox.showinfo('Appium 状态', 'Appium 已启动！')
+    else:
+        tkinter.messagebox.showinfo('Appium 状态', 'Appium 未启动！')
+
+
+def check_android_device():
+    # check android device connection
+    global has_devices
+    out = subprocess.Popen('adb devices',
+                           shell=True,
+                           stdout=subprocess.PIPE,
+                           stderr=subprocess.STDOUT,
+                           encoding='utf-8'
+                           )
+    if 'emulator' in out.communicate()[0]:
+        has_devices = True
+        return True
+
+    return False
+
+
+def dialog_device_state():
+    if has_devices:
+        tkinter.messagebox.showinfo('Android Devices 状态', 'Android 设备已连接！')
+    else:
+        tkinter.messagebox.showinfo('Android Devices 状态', '未找到连接的 Android 设备！')
 
 
 def get_meter_window():
@@ -63,7 +126,9 @@ def get_meter_window():
     # check Appium button
     check_appium_btn = Button(body,
                               text='检查',
-                              width=10)
+                              width=10,
+                              command=dialog_appium_state
+                              )
     check_appium_btn.place(x=250, y=40)
 
     # check Android device hint
@@ -78,7 +143,9 @@ def get_meter_window():
     # check Android device button
     check_device_btn = Button(body,
                               text='检查',
-                              width=10)
+                              width=10,
+                              command=dialog_device_state
+                              )
     check_device_btn.place(x=250, y=80)
 
     # get Baidu OCR Access Token hint
@@ -313,4 +380,6 @@ def get_meter_window():
 
 
 if __name__ == '__main__':
-    print(check_port_in_use(4723))
+    m_window = get_meter_window()
+    m_window.mainloop()
+
