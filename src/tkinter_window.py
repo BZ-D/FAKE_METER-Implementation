@@ -53,7 +53,7 @@ def get_appium_state():
     APPIUM_DEFAULT_PORT = 4723
     global has_appium
     has_appium = check_port_in_use(APPIUM_DEFAULT_PORT)
-    return has_appium
+    dialog_appium_state()
 
 
 def dialog_appium_state():
@@ -74,9 +74,10 @@ def check_android_device():
                            )
     if 'emulator' in out.communicate()[0]:
         has_devices = True
-        return True
-
-    return False
+    else:
+        has_devices = False
+        
+    dialog_device_state()
 
 
 def dialog_device_state():
@@ -127,7 +128,7 @@ def get_meter_window():
     check_appium_btn = Button(body,
                               text='检查',
                               width=10,
-                              command=dialog_appium_state
+                              command=get_appium_state
                               )
     check_appium_btn.place(x=250, y=40)
 
@@ -144,7 +145,7 @@ def get_meter_window():
     check_device_btn = Button(body,
                               text='检查',
                               width=10,
-                              command=dialog_device_state
+                              command=check_android_device
                               )
     check_device_btn.place(x=250, y=80)
 
