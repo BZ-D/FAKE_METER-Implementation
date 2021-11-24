@@ -22,6 +22,7 @@ base_platform_ver = ''
 updated_platform_ver = ''
 app_package = ''
 app_activity = ''
+timer = 0
 
 
 # -------------------- Functions ---------------------
@@ -173,6 +174,51 @@ def get_app_activity():
     global app_activity
     app_activity = app_activity_input.get()
     return app_activity
+
+
+def run():
+    global app_name
+    global app_package
+    global app_activity
+    global base_platform_ver
+    global updated_platform_ver
+    app_name = get_app_name()
+    app_package = get_app_package()
+    app_activity = get_app_activity()
+    base_platform_ver = get_base_platform_ver()
+    updated_platform_ver = get_updated_platform_ver()
+
+    prepare_works_done = [
+        has_appium,
+        has_devices,
+        len(api_key) > 0,
+        len(secret_key) > 0,
+        len(access_token) > 0,
+        len(app_name) > 0,
+        len(script_path) > 0,
+        len(base_apk_path) > 0,
+        len(updated_apk_path) > 0,
+        len(base_platform_ver) > 0,
+        len(updated_platform_ver) > 0,
+        len(app_package) > 0,
+        len(app_activity) > 0
+    ]
+
+    for i in range(len(prepare_works_done)):
+        if not prepare_works_done[i]:
+            print(i)
+            tkinter.messagebox.showinfo('无法运行', '请完善所有信息后再运行！')
+            return
+
+    running_hint.config(text='运行中...')
+    counting()
+
+
+def counting():
+    global timer
+    timer += 1
+    running_timer.config(text=str(timer))
+    running_timer.after(1000, counting)
 
 
 # ------------ TkInter Window Area -------------
@@ -455,7 +501,25 @@ app_activity_input.place(x=180, y=607)
 # run METER button
 get_token_btn = Button(body,
                        text='运行',
-                       width=10)
-get_token_btn.place(x=250, y=680)
+                       width=10,
+                       command=run
+                       )
+get_token_btn.place(x=250, y=650)
+
+# running hint
+running_hint = Label(body,
+                     text='',
+                     width=10,
+                     font=('Arial', 10)
+                     )
+running_hint.place(x=180, y=710)
+
+# running timer
+running_timer = Label(body,
+                      text='',
+                      width=10,
+                      font=('Arial', 10)
+                      )
+running_timer.place(x=300, y=710)
 
 window.mainloop()
