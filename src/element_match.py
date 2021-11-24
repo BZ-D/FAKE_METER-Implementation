@@ -111,8 +111,7 @@ def graphic_match_sift(img1, img2):
     cv2.imshow("matches", img3)
     cv2.waitKey()
 
-    a = same_des_num / len(descriptor1) > V_GM_THRESHOLD or same_des_num / len(descriptor2) > V_GM_THRESHOLD
-    return a
+    return same_des_num / len(descriptor1) > V_GM_THRESHOLD or same_des_num / len(descriptor2) > V_GM_THRESHOLD
 
 
 def element_set_match(set1, set2):
