@@ -115,6 +115,23 @@ def get_access_token():
         token_result_hint.config(state='readonly')
 
 
+def get_app_name():
+    global app_name
+    app_name = app_name_input.get()
+    return app_name
+
+
+def get_app_package():
+    global app_package
+    app_package = app_package_input.get()
+    return app_package
+
+
+def get_app_activity():
+    global app_activity
+    app_activity = app_activity_input.get()
+    return app_activity
+
 # ------------ TkInter Window Area -------------
 
 window = Tk()
