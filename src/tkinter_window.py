@@ -30,6 +30,10 @@ counter = 0
 
 def check_port_in_use(port, host='127.0.0.1'):
     # check whether a certain port is occupied
+
+    # log
+    print('Checking port usage: ' + str(port) + '...')
+
     s = None
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -45,6 +49,10 @@ def check_port_in_use(port, host='127.0.0.1'):
 
 def get_appium_state():
     # check whether the port 4723 (default port of Appium) is occupied
+
+    # log
+    print('Getting Appium state...')
+
     APPIUM_DEFAULT_PORT = 4723
     global has_appium
     has_appium = check_port_in_use(APPIUM_DEFAULT_PORT)
@@ -53,14 +61,20 @@ def get_appium_state():
 
 def dialog_appium_state():
     if has_appium:
+        print('Appium active!')
         tkinter.messagebox.showinfo('Appium 状态', 'Appium 已启动！')
     else:
+        print('No Appium Server detected!')
         tkinter.messagebox.showinfo('Appium 状态', 'Appium 未启动！')
 
 
 def check_android_device():
     # check android device connection
     global has_devices
+
+    # log
+    print('Checking devices state...')
+
     out = subprocess.Popen('adb devices',
                            shell=True,
                            stdout=subprocess.PIPE,
@@ -68,8 +82,14 @@ def check_android_device():
                            encoding='utf-8'
                            )
     if 'emulator' in out.communicate()[0]:
+        # log
+        print('Android Devices detected!')
+
         has_devices = True
     else:
+        # log
+        print('No Android Devices detected!')
+
         has_devices = False
 
     dialog_device_state()
@@ -115,10 +135,10 @@ def get_access_token():
     host = host + '&client_id=' + api_key
     host = host + '&client_secret=' + secret_key
 
-    response = requests.get(host)
-
     # log
     print('Getting access token...')
+
+    response = requests.get(host)
 
     if response:
         # log
@@ -142,6 +162,10 @@ def get_access_token():
 
 def get_app_name():
     # get a field
+
+    # log
+    print('Getting app name...')
+
     global app_name
     app_name = app_name_input.get()
     return app_name
@@ -149,6 +173,10 @@ def get_app_name():
 
 def get_script_path():
     # get a field
+
+    # log
+    print('Getting script path...')
+
     global script_path
     script_path = tkFD.askopenfilename()
     script_path_input.config(state='normal')
@@ -160,6 +188,10 @@ def get_script_path():
 
 def get_base_apk_path():
     # get a field
+
+    # log
+    print('Getting base apk size...')
+
     global base_apk_path
     base_apk_path = tkFD.askopenfilename()
     base_input.config(state='normal')
@@ -171,6 +203,10 @@ def get_base_apk_path():
 
 def get_updated_apk_path():
     # get a field
+
+    # log
+    print('Getting updated apk size...')
+
     global updated_apk_path
     updated_apk_path = tkFD.askopenfilename()
     updated_input.config(state='normal')
@@ -182,6 +218,10 @@ def get_updated_apk_path():
 
 def get_base_platform_ver():
     # get a field
+
+    # log
+    print('Getting base platform version...')
+
     global base_platform_ver
     base_platform_ver = base_platform_choose.get()
     return base_platform_ver
@@ -189,6 +229,10 @@ def get_base_platform_ver():
 
 def get_updated_platform_ver():
     # get a field
+
+    # log
+    print('Getting updated platform version...')
+
     global updated_platform_ver
     updated_platform_ver = updated_platform_choose.get()
     return updated_platform_ver
@@ -196,6 +240,10 @@ def get_updated_platform_ver():
 
 def get_app_package():
     # get a field
+
+    # log
+    print('Getting app package...')
+
     global app_package
     app_package = app_package_input.get()
     return app_package
@@ -203,6 +251,10 @@ def get_app_package():
 
 def get_app_activity():
     # get a field
+
+    # log
+    print('Getting app activity...')
+
     global app_activity
     app_activity = app_activity_input.get()
     return app_activity
