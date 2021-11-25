@@ -23,6 +23,7 @@ updated_platform_ver = ''
 app_package = ''
 app_activity = ''
 timer = 0
+counter = 0
 
 
 # -------------------- Functions ---------------------
@@ -210,16 +211,43 @@ def run():
             tkinter.messagebox.showinfo('无法运行', '请完善所有信息后再运行！')
             return
 
-    running_hint.config(text='运行中...')
+    prohibit_run_again()
     counting()
+    timing()
 
 
-def counting():
+def timing():
     global timer
     timer += 1
     running_timer.config(text=str(timer))
-    running_timer.after(1000, counting)
-    
+    running_timer.after(1000, timing)
+
+
+def counting():
+    global counter
+    if counter == 0:
+        hint_text.set('运行中')
+        counter += 1
+    elif counter == 1:
+        hint_text.set('运行中 =')
+        counter += 1
+    elif counter == 2:
+        hint_text.set('运行中 ==')
+        counter += 1
+    elif counter == 3:
+        hint_text.set('运行中 ===')
+        counter = 0
+
+    running_hint.after(1000, counting)
+
+
+def start():
+    global window
+    window.mainloop()
+
+
+def prohibit_run_again():
+    run_btn.config(state=DISABLED)
 
 
 # ------------ TkInter Window Area -------------
@@ -500,18 +528,20 @@ app_activity_input = Entry(body,
 app_activity_input.place(x=180, y=607)
 
 # run METER button
-get_token_btn = Button(body,
+run_btn = Button(body,
                        text='运行',
                        width=10,
                        command=run
                        )
-get_token_btn.place(x=250, y=650)
+run_btn.place(x=250, y=650)
 
 # running hint
+hint_text = StringVar('')
 running_hint = Label(body,
-                     text='',
+                     textvariable=hint_text,
                      width=10,
-                     font=('Arial', 10)
+                     font=('Arial', 10),
+                     anchor=W
                      )
 running_hint.place(x=180, y=710)
 
@@ -523,4 +553,4 @@ running_timer = Label(body,
                       )
 running_timer.place(x=300, y=710)
 
-window.mainloop()
+start()
