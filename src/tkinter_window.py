@@ -84,17 +84,30 @@ def dialog_device_state():
 
 def get_api_key():
     global api_key
+
+    # log
+    print('Getting api key...')
+
     api_key = api_key_input.get()
     return api_key
 
 
 def get_secret_key():
     global secret_key
+
+    # log
+    print('Getting secret key...')
+
     secret_key = secret_key_input.get()
     return secret_key
 
 
 def get_access_token():
+    # ※ important: get OCR access token of Baidu OCR API
+    # should provide api key as well as secret key to get access token
+    # if successfully get the token, print it
+    # else hint an error happens
+
     global access_token
     get_api_key()
     get_secret_key()
@@ -103,7 +116,14 @@ def get_access_token():
     host = host + '&client_secret=' + secret_key
 
     response = requests.get(host)
+
+    # log
+    print('Getting access token...')
+
     if response:
+        # log
+        print('Getting an access token success!')
+
         access_token = response.json()['access_token']
         print(access_token)
         token_result_hint.config(state='normal')
@@ -111,6 +131,9 @@ def get_access_token():
         token_result_hint.insert(0, '获取成功！令牌为: ' + access_token)
         token_result_hint.config(state='readonly')
     else:
+        # log
+        print('Getting an access token failure!')
+
         token_result_hint.config(state='normal')
         token_result_hint.delete(0, "end")
         token_result_hint.insert(0, '获取失败！请检查您的 API Key 及 Secret Key.')
@@ -118,12 +141,14 @@ def get_access_token():
 
 
 def get_app_name():
+    # get a field
     global app_name
     app_name = app_name_input.get()
     return app_name
 
 
 def get_script_path():
+    # get a field
     global script_path
     script_path = tkFD.askopenfilename()
     script_path_input.config(state='normal')
@@ -134,6 +159,7 @@ def get_script_path():
 
 
 def get_base_apk_path():
+    # get a field
     global base_apk_path
     base_apk_path = tkFD.askopenfilename()
     base_input.config(state='normal')
@@ -144,6 +170,7 @@ def get_base_apk_path():
 
 
 def get_updated_apk_path():
+    # get a field
     global updated_apk_path
     updated_apk_path = tkFD.askopenfilename()
     updated_input.config(state='normal')
@@ -154,30 +181,36 @@ def get_updated_apk_path():
 
 
 def get_base_platform_ver():
+    # get a field
     global base_platform_ver
     base_platform_ver = base_platform_choose.get()
     return base_platform_ver
 
 
 def get_updated_platform_ver():
+    # get a field
     global updated_platform_ver
     updated_platform_ver = updated_platform_choose.get()
     return updated_platform_ver
 
 
 def get_app_package():
+    # get a field
     global app_package
     app_package = app_package_input.get()
     return app_package
 
 
 def get_app_activity():
+    # get a field
     global app_activity
     app_activity = app_activity_input.get()
     return app_activity
 
 
 def run():
+    # what to do after press on the "run" button
+
     global app_name
     global app_package
     global app_activity
@@ -207,7 +240,7 @@ def run():
 
     for i in range(len(prepare_works_done)):
         if not prepare_works_done[i]:
-            print(i)
+            print('The missing item index: ' + str(i))
             tkinter.messagebox.showinfo('无法运行', '请完善所有信息后再运行！')
             return
 
@@ -217,13 +250,16 @@ def run():
 
 
 def timing():
+    # used as a timer to record running time
     global timer
     timer += 1
     running_timer.config(text=str(timer))
+    print('Fake METER has run for ' + str(timer) + ' seconds.')
     running_timer.after(1000, timing)
 
 
 def counting():
+    # simulate the process counter
     global counter
     if counter == 0:
         hint_text.set('运行中')
@@ -242,11 +278,13 @@ def counting():
 
 
 def start():
+    # start of window
     global window
     window.mainloop()
 
 
 def prohibit_run_again():
+    # avoid press on the "run" button for more than one time
     run_btn.config(state=DISABLED)
 
 
