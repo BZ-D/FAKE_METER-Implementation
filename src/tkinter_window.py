@@ -219,6 +219,7 @@ def counting():
     timer += 1
     running_timer.config(text=str(timer))
     running_timer.after(1000, counting)
+    
 
 
 # ------------ TkInter Window Area -------------
