@@ -145,7 +145,6 @@ def get_access_token():
         print('Getting an access token success!')
 
         access_token = response.json()['access_token']
-        print(access_token)
         token_result_hint.config(state='normal')
         token_result_hint.delete(0, "end")
         token_result_hint.insert(0, '获取成功！令牌为: ' + access_token)
@@ -337,7 +336,21 @@ def start():
 
 def prohibit_run_again():
     # avoid press on the "run" button for more than one time
+    # and disable all the entries or labels in the window
     run_btn.config(state=DISABLED)
+    check_appium_btn.config(state=DISABLED)
+    check_device_btn.config(state=DISABLED)
+    api_key_input.config(state=DISABLED)
+    secret_key_input.config(state=DISABLED)
+    get_token_btn.config(state=DISABLED)
+    app_name_input.config(state=DISABLED)
+    script_path_choose.config(state=DISABLED)
+    base_choose.config(state=DISABLED)
+    updated_choose.config(state=DISABLED)
+    base_platform_choose.config(state=DISABLED)
+    updated_platform_choose.config(state=DISABLED)
+    app_package_input.config(state=DISABLED)
+    app_activity_input.config(state=DISABLED)
 
 
 # ------------ TkInter Window Area -------------
@@ -350,6 +363,8 @@ window.title('METER-Play')
 window.geometry('600x800')
 # avoid change window size
 window.resizable(0, 0)
+# icon of window
+window.iconphoto(False, tkinter.PhotoImage(file='./ico/MICON.png'))
 
 # banner
 banner = Label(window,
