@@ -5,7 +5,7 @@ import base64
 
 
 def get_ocr_words(filePath):
-    TOKEN = '24.1b84780b7c6ca739e3ce7f4ba316336e.2592000.1640141874.282335-25207025'
+    TOKEN = 'XXX'
     request_url = 'https://aip.baidubce.com/rest/2.0/ocr/v1/general'
 
     f = open(filePath, 'rb')
