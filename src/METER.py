@@ -657,5 +657,3 @@ running_timer = Label(body,
                       font=('Arial', 10)
                       )
 running_timer.place(x=300, y=710)
-
-start()
