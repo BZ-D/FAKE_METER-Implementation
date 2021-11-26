@@ -16,7 +16,7 @@
 
     > 注：由于不同账号的原因，且访问令牌本身一段时间后会过期，可执行文件在OCR识别这一步经检测只能运行在本机，其他机器上可能不能正常运行，目前还没有找到好的解决方法，因此先在视频中展示功能，后续完善此项目时再考虑解决问题。
 
-  - 获取访问令牌：
+  - 获取访问令牌（This step can also be finished in GUI execuable file）：
 
     ```python
     import requests
